@@ -1,0 +1,30 @@
+﻿@import("lib.less");
+
+@var-a: #ff0000;
+a 
+{
+    border: 1px solid @var-a;
+	box-shadow: 0 0 20px @var-a;
+}
+
+.something-cool
+{
+	padding: 20px;
+	border: 1px solid red;
+
+	button
+	{
+		margin-top: 30px;
+		display: block;
+		background: #fff;
+		border: 1px solid blue;
+		border-radius: 2px;
+	}
+
+	button:hover
+	{
+		cursor: pointer;
+		background: #000;
+		color: @awesome-color;
+	}
+}

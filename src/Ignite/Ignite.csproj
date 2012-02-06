@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A9B64B41-807D-418B-8E7C-8023458112BF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Ignite</RootNamespace>
+    <AssemblyName>Ignite</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="dotless.Core">
+      <HintPath>..\packages\dotless.1.2.2.0\lib\dotless.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="EcmaScript.NET.modified">
+      <HintPath>..\packages\YUICompressor.NET.1.7.0.0\lib\net35\EcmaScript.NET.modified.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\Microsoft ASP.NET\ASP.NET MVC 3\Assemblies\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Yahoo.Yui.Compressor">
+      <HintPath>..\packages\YUICompressor.NET.1.7.0.0\lib\net35\Yahoo.Yui.Compressor.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assets\Asset.cs" />
+    <Compile Include="Assets\AssetResolver.cs" />
+    <Compile Include="Assets\CachedPackage.cs" />
+    <Compile Include="Assets\IAsset.cs" />
+    <Compile Include="Assets\IAssetResolver.cs" />
+    <Compile Include="Assets\JavaScriptPackage.cs" />
+    <Compile Include="Assets\PackageBase.cs" />
+    <Compile Include="Assets\StyleSheetPackage.cs" />
+    <Compile Include="DebugState.cs" />
+    <Compile Include="Html\CachedTagRenderer.cs" />
+    <Compile Include="Processing\IJavaScriptProcessor.cs" />
+    <Compile Include="Processing\IStyleSheetProcessor.cs" />
+    <Compile Include="Processing\DotLessStyleSheetProcessor.cs" />
+    <Compile Include="Processing\NullProcessor.cs" />
+    <Compile Include="EnumerableExtensions.cs" />
+    <Compile Include="FileSystemWrapper.cs" />
+    <Compile Include="Html\HashedVersionGenerator.cs" />
+    <Compile Include="Processing\YuiJavaScriptProcessor.cs" />
+    <Compile Include="Web\AssetResult.cs" />
+    <Compile Include="Web\CachedGZipAssetResultWriter.cs" />
+    <Compile Include="Web\IAssetResultWriter.cs" />
+    <Compile Include="Web\IAssetResult.cs" />
+    <Compile Include="IDebugState.cs" />
+    <Compile Include="IFileSystem.cs" />
+    <Compile Include="Ignite.cs" />
+    <Compile Include="Web\IHttpCacheHandler.cs" />
+    <Compile Include="Web\IgniteHttpHandler.cs" />
+    <Compile Include="Web\IgniteRouteHandler.cs" />
+    <Compile Include="IJavaScriptPackageSyntax.cs" />
+    <Compile Include="IPackageContainer.cs" />
+    <Compile Include="IStyleSheetPackageSyntax.cs" />
+    <Compile Include="Html\ITagRenderer.cs" />
+    <Compile Include="Html\IVersionGenerator.cs" />
+    <Compile Include="Assets\IPackage.cs" />
+    <Compile Include="PackageContainer.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Html\TagRenderer.cs" />
+    <Compile Include="Assets\TemplateAsset.cs" />
+    <Compile Include="TemplateConfiguration.cs" />
+    <Compile Include="Web\PageBasedHttpCacheHandler.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
