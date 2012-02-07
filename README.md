@@ -1,8 +1,8 @@
 Ignite
 ======
 
-Ignite is a simple to use framework that combines JavaScript, style sheets (CSS, LESS) and JavaScript 
-template management for ASP.NET MVC 3.
+Ignite is a framework that allows for management of JavaScript, style sheets (CSS, LESS) and JavaScript 
+templates for ASP.NET MVC 3.
 
 Quick Start
 -----------
