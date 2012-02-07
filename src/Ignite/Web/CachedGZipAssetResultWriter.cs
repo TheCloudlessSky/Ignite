@@ -26,6 +26,8 @@ namespace Ignite.Web
 
             var response = context.Response;
 
+            // TODO: Cache should vary on Accept-Encoding.
+
             // Determine if the response can be gzipped.
             string acceptEncoding = context.Request.Headers["Accept-Encoding"];
             bool clientSupportsGzip = (acceptEncoding.Contains("gzip") || acceptEncoding.Contains("deflate"));
