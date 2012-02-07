@@ -126,5 +126,12 @@
         </ItemGroup>
         <Copy SourceFiles="@(PackageFiles)" DestinationFolder="$(PackageDeploymentDirectory)" />
     </Target>
-   
+
+    <Target Name="PublishPackage">
+        <ItemGroup>
+            <PackageFiles Include="$(DropRoot)\*.nupkg" />
+        </ItemGroup>
+        <Exec WorkingDirectory="$(DropRoot)"
+            Command="$(ToolsRoot)\nuget\nuget.exe push @(PackageFiles) $(NugetApiKey)" />
+    </Target>
 </Project>
