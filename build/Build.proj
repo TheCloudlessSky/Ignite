@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0" DefaultTargets="Go">
+    
+    <PropertyGroup>
+        <Configuration Condition="'$(Configuration)'==''">Release</Configuration>
+        <RootDirectory>$(MSBuildProjectDirectory)\..</RootDirectory>
+        <BuildRoot>$(RootDirectory)\build</BuildRoot>
+        <DropRoot>$(RootDirectory)\bin</DropRoot>
+        <TestRoot>$(RootDirectory)\test</TestRoot>
+        <SourceRoot>$(RootDirectory)\src</SourceRoot>
+        <ToolsRoot>$(RootDirectory)\tools</ToolsRoot>
+        
+        <DropOutputDirectory>$(DropRoot)\$(Configuration)</DropOutputDirectory>
+        
+        <OutputDirectory>$(SourceRoot)\Ignite\bin\$(Configuration)</OutputDirectory>
+        
+        <TestResults>$(TestRoot)\testresults.trx</TestResults>
+        
+        <MSBuildCommunityTasks>$(RootDirectory)\tools\MSBuild\MSBuild.Community.Tasks.dll</MSBuildCommunityTasks>
+    </PropertyGroup>
+    
+    <PropertyGroup>
+        <MajorVersion>1</MajorVersion>
+        <MinorVersion>5</MinorVersion>
+        <PatchVersion>0</PatchVersion>
+        <Version>$(MajorVersion).$(MinorVersion).$(PatchVersion).0</Version>
+    </PropertyGroup>
+    
+    <UsingTask AssemblyFile="$(MSBuildCommunityTasks)" TaskName="MSBuild.Community.Tasks.Zip" />
+    <UsingTask AssemblyFile="$(MSBuildCommunityTasks)" TaskName="MSBuild.Community.Tasks.XmlUpdate" />
+    <UsingTask AssemblyFile="$(MSBuildCommunityTasks)" TaskName="MSBuild.Community.Tasks.AssemblyInfo" />
+    
+    <Target Name="Go" DependsOnTargets="Build; RunTests; CopyOutputToDropDirectory; BuildPackage;" />
+    
+    <Target Name="UpdateVersion">
+        
+        <CallTarget Targets="ReportVersion" />
+        
+        <Copy SourceFiles="$(SourceRoot)\CommonAssemblyInfo.cs"
+            DestinationFiles="$(SourceRoot)\CommonAssemblyInfo.cs.old" />
+        
+        <AssemblyInfo CodeLanguage="CS" 
+            OutputFile="$(SourceRoot)\CommonAssemblyInfo.cs"
+            AssemblyTitle="Ignite"
+            AssemblyCompany="http://www.adrianphinney.com"
+            AssemblyProduct="Ignite"
+            AssemblyCopyright="Copyright © Adrian Phinney 2011"     
+            ComVisible="false"
+            CLSCompliant="true"
+            Guid="d703946e-699a-45a6-b219-2ac255559c29"
+            AssemblyDescription="Minify your JavaScript, CSS, LESS and JavaScript templates with MVC."
+            AssemblyVersion="$(Version)"
+            AssemblyFileVersion="$(Version)"
+            AssemblyInformationalVersion="$(Version) $(ChangesetVersion)"/>
+    </Target>
+    
+    <Target Name="ReportVersion">
+        <Message Text="##teamcity[buildNumber '$(Version)']" />
+    </Target>
+    
+    <Target Name="UpdateVersionCleanup">
+        <Copy SourceFiles="$(SourceRoot)\CommonAssemblyInfo.cs.old"
+            DestinationFiles="$(SourceRoot)\CommonAssemblyInfo.cs" />
+        <Delete Files="$(SourceRoot)\CommonAssemblyInfo.cs.old" />
+    </Target>
+    
+    <Target Name="Build">
+        <CallTarget Targets="UpdateVersion" />
+        
+        <!-- Compile -->
+        <MSBuild Projects="$(SourceRoot)\Ignite.sln" Properties="Configuration=$(Configuration)" />
+        
+        <CallTarget Targets="UpdateVersionCleanup" />
+        <OnError ExecuteTargets="UpdateVersionCleanup" />
+    </Target>
+    
+    <Target Name="RunTests">
+    
+        <ItemGroup>
+            <TestItems Include="$(SourceRoot)\Ignite.Test\bin\$(Configuration)\Ignite.Test.dll" />
+        </ItemGroup>
+    
+        <RemoveDir Directories="$(TestRoot)" />
+        <MakeDir Directories="$(TestRoot)" />
+        
+        <Exec Command="&quot;$(VS100COMNTOOLS)..\IDE\mstest.exe&quot; /testcontainer:&quot;@(TestItems)&quot; /runconfig:&quot;$(SourceRoot)\local.testsettings&quot; /resultsfile:&quot;$(TestResults)&quot;" />
+            
+        <!-- Ensure that the test results are always reported -->
+        <CallTarget Targets="ReportTestResults" />
+        <OnError ExecuteTargets="ReportTestResults" />
+    </Target>
+    
+    <Target Name="ReportTestResults">
+        <Message Text="##teamcity[importData id='mstest' file='$(TestResults)']" />
+    </Target>
+    
+    <Target Name="CopyOutputToDropDirectory">
+    
+        <RemoveDir Directories="$(DropRoot)" Condition="Exists('$(DropRoot)')" ContinueOnError="True" />
+        
+        <PropertyGroup>
+            <ZipNameSuffix Condition="'$(ChangesetVersion)'!=''">-$(ChangesetVersion)</ZipNameSuffix>
+        </PropertyGroup>
+        
+        <ItemGroup>
+            <CopyOutputItems Include="$(OutputDirectory)\**\*.*" />
+            <FilesToZip Include="$(DropOutputDirectory)\**\*.*" />
+        </ItemGroup>
+
+        <Copy SourceFiles="@(CopyOutputItems)" DestinationFolder="$(DropOutputDirectory)\%(RecursiveDir)" />
+        
+        <Zip Files="@(FilesToZip)" 
+            ZipFileName="$(DropRoot)\Ignite-$(Version)$(ZipNameSuffix).zip" 
+            WorkingDirectory="$(DropOutputDirectory)" />
+        
+    </Target>
+    
+    <Target Name="BuildPackage">                
+        <Exec WorkingDirectory="$(DropRoot)" 
+            Command="$(ToolsRoot)\nuget\nuget.exe pack $(BuildRoot)\Ignite.nuspec -Version &quot;$(Version)&quot; -OutputDirectory &quot;$(DropRoot)&quot;" />        
+    </Target>
+    
+    <Target Name="DeployPackage">
+        <ItemGroup>
+            <PackageFiles Include="$(DropRoot)\*.nupkg" />
+        </ItemGroup>
+        <Copy SourceFiles="@(PackageFiles)" DestinationFolder="$(PackageDeploymentDirectory)" />
+    </Target>
+   
+</Project>

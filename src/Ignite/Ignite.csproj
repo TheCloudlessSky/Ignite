@@ -55,6 +55,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Assets\Asset.cs" />
     <Compile Include="Assets\AssetResolver.cs" />
     <Compile Include="Assets\CachedPackage.cs" />
@@ -90,7 +94,6 @@
     <Compile Include="Html\IVersionGenerator.cs" />
     <Compile Include="Assets\IPackage.cs" />
     <Compile Include="PackageContainer.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Html\TagRenderer.cs" />
     <Compile Include="Assets\TemplateAsset.cs" />
     <Compile Include="TemplateConfiguration.cs" />
@@ -99,6 +102,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

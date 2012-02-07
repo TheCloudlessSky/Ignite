@@ -8,7 +8,9 @@ namespace Ignite.Assets
 {
     public abstract class PackageBase : IPackage
     {
+#pragma warning disable 3005
         protected readonly IList<IAsset> assets;
+#pragma warning restore 3005
 
         public IEnumerable<IAsset> Assets { get { return this.assets; } }
         public string Name { get; private set; }

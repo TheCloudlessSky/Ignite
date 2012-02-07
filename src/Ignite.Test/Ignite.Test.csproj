@@ -49,6 +49,9 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="AssetBuilder.cs" />
     <Compile Include="Assets\AssetTest.cs" />
     <Compile Include="Assets\CachedPackageTest.cs" />
@@ -60,19 +63,18 @@
     <Compile Include="Html\TagRendererTest.cs" />
     <Compile Include="MoqExtensions.cs" />
     <Compile Include="Assets\AssetResolverTest.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Ignite\Ignite.csproj">
-      <Project>{A9B64B41-807D-418B-8E7C-8023458112BF}</Project>
-      <Name>Ignite</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Web\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Ignite\Ignite.csproj">
+      <Project>{A9B64B41-807D-418B-8E7C-8023458112BF}</Project>
+      <Name>Ignite</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
