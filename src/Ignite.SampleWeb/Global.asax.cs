@@ -29,18 +29,12 @@ namespace Ignite.SampleWeb
                 new { controller = "Home", action = "Index", id = UrlParameter.Optional } // Parameter defaults
             );
         }
-
+        
         private static void RegisterPackages(RouteCollection routes)
         {
-            var container = Ignite.Create("assets")
+            var container = Ignite.Create()
+                .RoutePrefix("assets")
                 .DisableDebugging()
-#if DEBUG
-                .DisableCaching();
-#else
-                .EnableCaching();
-#endif
-
-            container
                 .JavaScript("core", new[]
                 { 
                     "scripts/vendor/underscore*.js",
@@ -48,9 +42,7 @@ namespace Ignite.SampleWeb
                     "scripts/a/*.js",
                     "scripts/b/*.js",
                     "scripts/templates/*.jst"
-                });
-
-            container
+                })
                 .StyleSheet("core", new[]
                 {
                     "content/**/*.less"

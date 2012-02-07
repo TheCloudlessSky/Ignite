@@ -24,7 +24,7 @@ namespace Ignite
         private static object syncRoot = new object();
         private static IPackageContainerInternal current;
 
-        public static IPackageContainer Create(string routePrefix)
+        public static IPackageContainer Create()
         {
             lock (syncRoot)
             {
@@ -32,7 +32,7 @@ namespace Ignite
                 {
                     throw new InvalidOperationException("Only one pacakge container can be created.");
                 }
-                current = new PackageContainer(routePrefix);
+                current = new PackageContainer();
             }
             return current;
         }

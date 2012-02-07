@@ -17,10 +17,27 @@ namespace Ignite
         IAssetResult GetAsset(RequestContext context);
     }
 
-    public interface IPackageContainer : IJavaScriptPackageSyntax, IStyleSheetPackageSyntax
+    public interface IPackageContainer
     {
         IDebugState DebugState { get; }
-        string RoutePrefix { get; }
+
+        /// <summary>
+        /// Adds a new JavaScript package.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="include"></param>
+        /// <param name="exclude"></param>
+        /// <returns></returns>
+        IPackageContainer JavaScript(string name, string[] include, string[] exclude = null);
+
+        /// <summary>
+        /// Adds a new StyleSheet package.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="include"></param>
+        /// <param name="exclude"></param>
+        /// <returns></returns>
+        IPackageContainer StyleSheet(string name, string[] include, string[] exclude = null);
 
         /// <summary>
         /// Disables HTTP caching.
@@ -96,6 +113,14 @@ namespace Ignite
         /// <param name="templateNamespace"></param>
         /// <returns></returns>
         IPackageContainer TemplateNamespace(string templateNamespace);
+
+        /// <summary>
+        /// Sets the route prefix used for the packaged assets. The default value is "assets". 
+        /// For example, setting this to "static" will result in serving files like "/static/core.js".
+        /// </summary>
+        /// <param name="routePrefix"></param>
+        /// <returns></returns>
+        IPackageContainer RoutePrefix(string routePrefix);
 
         /// <summary>
         /// Sets the generator used to generate the unique identifiers 

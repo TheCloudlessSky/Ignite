@@ -87,9 +87,7 @@
     <Compile Include="Web\IHttpCacheHandler.cs" />
     <Compile Include="Web\IgniteHttpHandler.cs" />
     <Compile Include="Web\IgniteRouteHandler.cs" />
-    <Compile Include="IJavaScriptPackageSyntax.cs" />
     <Compile Include="IPackageContainer.cs" />
-    <Compile Include="IStyleSheetPackageSyntax.cs" />
     <Compile Include="Html\ITagRenderer.cs" />
     <Compile Include="Html\IVersionGenerator.cs" />
     <Compile Include="Assets\IPackage.cs" />

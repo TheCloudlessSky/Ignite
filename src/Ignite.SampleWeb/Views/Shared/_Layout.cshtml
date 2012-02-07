@@ -1,11 +1,14 @@
-﻿<!DOCTYPE html>
+﻿@using Ignite
+<!DOCTYPE html>
 <html>
-<head>
-    <title>@ViewBag.Title</title>
+    <head>
+        <title>Testing Ignite</title>
+        @Ignite.JavaScriptTag("core")
+        @Ignite.StyleSheetTag("core")
+
+
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
-    @Ignite.Ignite.JavaScriptTag("core")
-    @Ignite.Ignite.StyleSheetTag("core")
 </head>
 
 <body>

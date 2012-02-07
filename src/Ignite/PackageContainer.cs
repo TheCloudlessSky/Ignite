@@ -15,10 +15,10 @@ using System.Web.UI;
 namespace Ignite
 {
     // TODO: Test with /assets/mos.core.js?v=1231324314143 (period in name).
-    internal class PackageContainer : IPackageContainerInternal, IJavaScriptPackageSyntax, IStyleSheetPackageSyntax
+    internal class PackageContainer : IPackageContainerInternal
     {
         private bool isBuilt;
-        private readonly string routePrefix;
+        private string routePrefix;
         private readonly IAssetResolver resolver;
         private readonly TemplateConfiguration templateConfig;
         private readonly string appPath;
@@ -30,15 +30,14 @@ namespace Ignite
         private IJavaScriptProcessor javascriptProcessor;
         private IStyleSheetProcessor stylesheetProcessor;
 
-        public string RoutePrefix { get { return this.routePrefix; } }
         public IDebugState DebugState { get { return this.debugState; } }
         public ITagRenderer TagRenderer { get { return this.tagRenderer; } }
         public IHttpCacheHandler CacheHandler { get; private set; }
         public IAssetResultWriter Writer { get; private set; }
 
-        internal PackageContainer(string routePrefix)
+        internal PackageContainer()
         {
-            this.routePrefix = routePrefix;
+            this.routePrefix = "assets";
             this.appPath = HttpContext.Current.Request.PhysicalApplicationPath;
 
             this.templateConfig = new TemplateConfiguration()
@@ -56,7 +55,7 @@ namespace Ignite
             this.resolver = new AssetResolver(new FileSystemWrapper());
         }
 
-        public IJavaScriptPackageSyntax JavaScript(string name, string[] include, string[] exclude = null)
+        public IPackageContainer JavaScript(string name, string[] include, string[] exclude = null)
         {
             var assets = this.resolver.GetAssets(this.appPath, include, exclude ?? Enumerable.Empty<string>());
             var js = new JavaScriptPackage(name, assets, this.javascriptProcessor, this.templateConfig);
@@ -64,7 +63,7 @@ namespace Ignite
             return this;
         }
 
-        public IStyleSheetPackageSyntax StyleSheet(string name, string[] include, string[] exclude = null)
+        public IPackageContainer StyleSheet(string name, string[] include, string[] exclude = null)
         {
             var assets = this.resolver.GetAssets(this.appPath, include, exclude ?? Enumerable.Empty<string>());
             var style = new StyleSheetPackage(name, assets, this.stylesheetProcessor);
@@ -198,6 +197,13 @@ namespace Ignite
         {
             Contract.Requires(!String.IsNullOrWhiteSpace(templateNamespace));
             this.templateConfig.Namespace = templateNamespace;
+            return this;
+        }
+
+        public IPackageContainer RoutePrefix(string routePrefix)
+        {
+            Contract.Requires(!String.IsNullOrWhiteSpace(routePrefix));
+            this.routePrefix = routePrefix;
             return this;
         }
 
