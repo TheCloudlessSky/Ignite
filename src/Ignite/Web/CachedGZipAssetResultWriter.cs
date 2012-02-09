@@ -27,6 +27,7 @@ namespace Ignite.Web
             var response = context.Response;
 
             // TODO: Cache should vary on Accept-Encoding.
+            // TODO: Should JavaScript templates be written on multiple lines when debugging?
 
             // Determine if the response can be gzipped.
             string acceptEncoding = context.Request.Headers["Accept-Encoding"];

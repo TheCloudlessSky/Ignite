@@ -25,7 +25,7 @@ Quick Start
             {
                 "style/**/*.less"                   // The default stylesheet compressor uses DotLess.
             })
-            .Build(routes);                         // Let MVC handle requests to these routes.
+            .Map(routes);                           // Let MVC handle requests to these routes.
 
         // Other routes would go here...
     }

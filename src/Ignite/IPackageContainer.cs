@@ -152,6 +152,6 @@ namespace Ignite
         /// <returns></returns>
         IPackageContainer VersionGenerator(IVersionGenerator versionGenerator);
 
-        void Build(RouteCollection routes);
+        void Map(RouteCollection routes);
     }
 }

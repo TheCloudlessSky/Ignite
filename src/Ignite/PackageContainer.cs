@@ -15,8 +15,18 @@ using System.Web.UI;
 namespace Ignite
 {
     // TODO: Test with /assets/mos.core.js?v=1231324314143 (period in name).
-    internal class PackageContainer : IPackageContainerInternal
+    public class PackageContainer : IPackageContainerInternal
     {
+        // TODO: Allow mutliple package containers?
+        internal const string JavaScriptExtension = "js";
+        internal const string StyleSheetExtension = "css";
+        internal const string RouteValue = "package";
+        public const string DebugQueryParam = "debug";
+        public const string VersionQueryParam = "v";
+
+        private static object syncRoot = new object();
+        private static IPackageContainerInternal current;
+
         private bool isBuilt;
         private string routePrefix;
         private readonly IAssetResolver resolver;
@@ -71,7 +81,7 @@ namespace Ignite
             return this;
         }
 
-        public void Build(RouteCollection routes)
+        public void Map(RouteCollection routes)
         {
             Contract.Requires(!this.isBuilt, "The container is already built.");
 
@@ -81,7 +91,7 @@ namespace Ignite
 
             this.Writer = new CachedGZipAssetResultWriter(this.CacheHandler);
 
-            routes.Add(new Route(this.routePrefix + "/{" + Ignite.RouteValue + "}", new IgniteRouteHandler(this)));
+            routes.Add(new Route(this.routePrefix + "/{" + RouteValue + "}", new IgniteRouteHandler(this)));
             this.isBuilt = true;
         }
 
@@ -89,7 +99,7 @@ namespace Ignite
         {
             Contract.Requires(this.isBuilt, "The container must be built before requesting assets.");
 
-            var packageRouteData = requestContext.RouteData.GetRequiredString(Ignite.RouteValue).Split('.');
+            var packageRouteData = requestContext.RouteData.GetRequiredString(RouteValue).Split('.');
 
             var name = String.Join(".", packageRouteData.TakeWhile((c, i) => i < packageRouteData.Length - 1));
             var extension = packageRouteData.Last();
@@ -99,11 +109,11 @@ namespace Ignite
 
             switch (extension.ToLower())
             {
-                case Ignite.JavaScriptExtension:
+                case JavaScriptExtension:
                     result.ContentType = "text/javascript";
                     package = this.javascripts[name];
                     break;
-                case Ignite.StyleSheetExtension:
+                case StyleSheetExtension:
                     result.ContentType = "text/css";
                     package = this.stylesheets[name];
                     break;
@@ -111,7 +121,7 @@ namespace Ignite
                     return null;
             }
 
-            var debugQueryParam = requestContext.HttpContext.Request.QueryString[Ignite.DebugQueryParam];
+            var debugQueryParam = requestContext.HttpContext.Request.QueryString[PackageContainer.DebugQueryParam];
 
             if (this.debugState.IsDebugging() && !String.IsNullOrEmpty(debugQueryParam))
             {
@@ -147,7 +157,7 @@ namespace Ignite
             var cacheParams = new OutputCacheParameters()
             {
                 Duration = cacheDuration,
-                VaryByParam = Ignite.VersionQueryParam
+                VaryByParam = PackageContainer.VersionQueryParam
             };
             return this.EnableHttpCaching(new PageBasedHttpCacheHandler(this.debugState, cacheParams));
         }
@@ -212,6 +222,29 @@ namespace Ignite
             Contract.Requires(versionGenerator != null);
             this.versionGenerator = versionGenerator;
             return this;
+        }
+
+        public static IPackageContainer Create()
+        {
+            lock (syncRoot)
+            {
+                if (current != null)
+                {
+                    throw new InvalidOperationException("Only one pacakge container can be created.");
+                }
+                current = new PackageContainer();
+            }
+            return current;
+        }
+
+        public static IHtmlString JavaScriptTag(string name, object htmlAttributes = null)
+        {
+            return new HtmlString(current.TagRenderer.JavaScriptTag(name, htmlAttributes));
+        }
+
+        public static IHtmlString StyleSheetTag(string name, object htmlAttributes = null)
+        {
+            return new HtmlString(current.TagRenderer.StyleSheetTag(name, htmlAttributes));
         }
     }
 }

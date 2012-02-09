@@ -32,7 +32,7 @@ namespace Ignite.SampleWeb
         
         private static void RegisterPackages(RouteCollection routes)
         {
-            var container = Ignite.Create()
+            var container = PackageContainer.Create()
                 .RoutePrefix("assets")
                 // .DisableDebugging()
                 .JavaScript("core", new[]
@@ -52,7 +52,7 @@ namespace Ignite.SampleWeb
             //        "content/style/ie/*.less"
             //    });
 
-            container.Build(routes);
+            container.Map(routes);
         }
 
         protected void Application_Start()

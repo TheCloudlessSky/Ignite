@@ -27,13 +27,13 @@ namespace Ignite.Html
         public string JavaScriptTag(string name, object htmlAttributes)
         {
             var package = this.javascripts[name];
-            return this.Tag(package, name, Ignite.JavaScriptExtension, htmlAttributes, this.RenderJavaScript);
+            return this.Tag(package, name, PackageContainer.JavaScriptExtension, htmlAttributes, this.RenderJavaScript);
         }
 
         public string StyleSheetTag(string name, object htmlAttributes)
         {
             var package = this.stylesheets[name];
-            return this.Tag(package, name, Ignite.StyleSheetExtension, htmlAttributes, this.RenderStyleSheet);
+            return this.Tag(package, name, PackageContainer.StyleSheetExtension, htmlAttributes, this.RenderStyleSheet);
         }
 
         private string Tag(IPackage package, string name, string extension, object htmlAttributes, Func<string, IDictionary<string, object>, string> renderer)
@@ -61,11 +61,11 @@ namespace Ignite.Html
 
             if (debugPath != null)
             {
-                p += Ignite.DebugQueryParam + "=" + debugPath; // +"&";
+                p += PackageContainer.DebugQueryParam + "=" + debugPath;
             }
             else
             {
-                p += Ignite.VersionQueryParam + "=" + this.versionGenerator.Generate();
+                p += PackageContainer.VersionQueryParam + "=" + this.versionGenerator.Generate();
             }
 
             return p;

@@ -85,7 +85,6 @@
     <Compile Include="Web\IAssetResult.cs" />
     <Compile Include="IDebugState.cs" />
     <Compile Include="IFileSystem.cs" />
-    <Compile Include="Ignite.cs" />
     <Compile Include="Web\IHttpCacheHandler.cs" />
     <Compile Include="Web\IgniteHttpHandler.cs" />
     <Compile Include="Web\IgniteRouteHandler.cs" />
