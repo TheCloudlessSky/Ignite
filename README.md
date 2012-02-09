@@ -7,7 +7,7 @@ templates for ASP.NET MVC3.
 Quick Start
 -----------
 
-1. Install using NuGet: `PM> Install-Package Ignite`.
+1. Install using NuGet: `PM> Install-Package Ignite`
 2. Configure your `Global.asax.cs`:
 
     ```csharp
