@@ -5,8 +5,8 @@ using System.Text;
 
 namespace Ignite.Processing
 {
-    public interface IJavaScriptProcessor
+    public interface IJavaScriptProcessor : IProcessor
     {
-        string Execute(string data);
+
     }
 }

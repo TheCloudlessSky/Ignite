@@ -4,12 +4,21 @@ using System.Linq;
 using System.Text;
 using dotless.Core;
 using dotless.Core.Loggers;
+using dotless.Core.Stylizers;
+using dotless.Core.Importers;
+using System.IO;
 
 namespace Ignite.Processing
 {
-    // TODO: Account for individual importing?
     public class DotLessStyleSheetProcessor : IStyleSheetProcessor
     {
+        private readonly string appPath;
+
+        public DotLessStyleSheetProcessor(string appPath)
+        {
+            this.appPath = appPath;
+        }
+
         private class IgniteDotLessLogger : dotless.Core.Loggers.ILogger
         {
             public void Debug(string message)
@@ -19,8 +28,7 @@ namespace Ignite.Processing
 
             public void Error(string message)
             {
-                // TODO: IgniteException
-                throw new Exception("Failed to execute compressor: " + message);
+                throw new ProcessingException("Failed to execute DotLess processor: " + message);
             }
 
             public void Info(string message)
@@ -32,34 +40,34 @@ namespace Ignite.Processing
             {
                 if (level == dotless.Core.Loggers.LogLevel.Error)
                 {
-                    // TODO: IgniteException
-                    throw new Exception("Failed to execute compressor: " + message);
+                    throw new ProcessingException("Failed to execute DotLess processor: " + message);
                 }
             }
 
             public void Warn(string message)
             {
-
+                throw new ProcessingException("Failed to execute DotLess processor: " + message);
             }
         }
 
-        private readonly IDebugState debugState;
-
-        public DotLessStyleSheetProcessor(IDebugState debugState)
+        public string Preprocess(string data, string fileName)
         {
-            this.debugState = debugState;
+            // Ensure that the current directory for the @import statements
+            // is the directory of the file.
+            var fullFilePath = Path.Combine(this.appPath, fileName.Replace('/', '\\'));
+            Directory.SetCurrentDirectory(Path.GetDirectoryName(fullFilePath));
+
+            // Execute LESS engine but do not compress or optimize. This allows resolving 
+            // @import statements during debugging as well as a pretty-print version of the CSS.
+            var e = new LessEngine(new dotless.Core.Parser.Parser(optimization: 0), new IgniteDotLessLogger(), compress: false);
+            return e.TransformToCss(data, fileName);
         }
 
-        public string Execute(string data)
+        public string Process(string data)
         {
-            // TODO: Imports.
-            // Decompile dotless and figure out default usage.
-            // TODO: Need to pass path down to this.
-            // new LessEngine(new dotless.Core.Parser.Parser(new dotless.Core.Stylizers.ConsoleStylizer(), new dotless.Core.Importers.Importer())
-
             return Less.Parse(data, new dotless.Core.configuration.DotlessConfiguration()
             {
-                MinifyOutput = !debugState.IsDebugging(),
+                MinifyOutput = true,
                 Logger = typeof(IgniteDotLessLogger)
             });
         }

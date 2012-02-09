@@ -34,7 +34,7 @@ namespace Ignite.SampleWeb
         {
             var container = Ignite.Create()
                 .RoutePrefix("assets")
-                .DisableDebugging()
+                // .DisableDebugging()
                 .JavaScript("core", new[]
                 { 
                     "scripts/vendor/underscore*.js",

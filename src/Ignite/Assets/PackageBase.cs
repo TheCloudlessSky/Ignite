@@ -11,37 +11,40 @@ namespace Ignite.Assets
 #pragma warning disable 3005
         protected readonly IList<IAsset> assets;
 #pragma warning restore 3005
+        protected readonly IDebugState debugState;
+        protected readonly IProcessor processor;
 
         public IEnumerable<IAsset> Assets { get { return this.assets; } }
         public string Name { get; private set; }
 
-        protected PackageBase(string name, IList<IAsset> assets)
+        protected PackageBase(string name, IList<IAsset> assets, IProcessor processor, IDebugState debugState)
         {
             this.Name = name;
             this.assets = assets;
+            this.processor = processor;
+            this.debugState = debugState;
         }
 
-        public string GetData()
+        public string GetAllData()
         {
             var sb = new StringBuilder();
 
             foreach (var a in this.assets)
             {
-                sb.AppendLine(a.GetData());
+                sb.AppendLine(this.processor.Preprocess(a.GetData(), a.Path));
             }
 
-            return this.Process(sb.ToString());
+            var data = sb.ToString();
+            return this.debugState.IsDebugging() ? data : this.processor.Process(data);
         }
 
-        public string GetData(string assetPath)
+        public string GetAssetData(string assetPath)
         {
             var asset = this.assets.SingleOrDefault(a => a.Path.Equals(assetPath, StringComparison.CurrentCultureIgnoreCase));
 
             if (asset == null) { return null; }
 
-            return this.Process(asset.GetData());
+            return this.processor.Preprocess(asset.GetData(), asset.Path);
         }
-
-        protected abstract string Process(string data);
     }
 }

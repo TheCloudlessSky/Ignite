@@ -5,8 +5,9 @@ using System.Text;
 
 namespace Ignite.Processing
 {
-    public interface IStyleSheetProcessor : IProcessor
+    public interface IProcessor
     {
-
+        string Preprocess(string data, string fileName);
+        string Process(string data);
     }
 }

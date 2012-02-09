@@ -8,23 +8,14 @@ namespace Ignite.Processing
 {
     public class YuiJavaScriptProcessor : IJavaScriptProcessor
     {
-        private readonly IDebugState debugState;
-
-        public YuiJavaScriptProcessor(IDebugState debugState)
+        public string Preprocess(string data, string fileName)
         {
-            this.debugState = debugState;
+            return data;    
         }
 
-        public string Execute(string data)
+        public string Process(string data)
         {
-            if (this.debugState.IsDebugging())
-            {
-                return data;
-            }
-            else
-            {
-                return JavaScriptCompressor.Compress(data, true);
-            }
+            return JavaScriptCompressor.Compress(data, true);
         }
     }
 }

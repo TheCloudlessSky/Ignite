@@ -18,9 +18,9 @@ namespace Ignite.Test.Assets
             var p = this.CreatePackage(true, "abc123", "def456", "ghi789");
 
             // Act / Assert
-            Assert.AreEqual("abc123", p.GetData());
-            Assert.AreEqual("def456", p.GetData());
-            Assert.AreEqual("ghi789", p.GetData());
+            Assert.AreEqual("abc123", p.GetAllData());
+            Assert.AreEqual("def456", p.GetAllData());
+            Assert.AreEqual("ghi789", p.GetAllData());
         }
 
         [TestMethod]
@@ -38,13 +38,13 @@ namespace Ignite.Test.Assets
             });
 
             // Act / Assert
-            Assert.AreEqual("A1", p.GetData("content/1.js"));
-            Assert.AreEqual("A2", p.GetData("content/1.js"));
-            Assert.AreEqual("A3", p.GetData("content/1.js"));
+            Assert.AreEqual("A1", p.GetAssetData("content/1.js"));
+            Assert.AreEqual("A2", p.GetAssetData("content/1.js"));
+            Assert.AreEqual("A3", p.GetAssetData("content/1.js"));
 
-            Assert.AreEqual("B1", p.GetData("content/2.js"));
-            Assert.AreEqual("B2", p.GetData("content/2.js"));
-            Assert.AreEqual("B3", p.GetData("content/2.js"));
+            Assert.AreEqual("B1", p.GetAssetData("content/2.js"));
+            Assert.AreEqual("B2", p.GetAssetData("content/2.js"));
+            Assert.AreEqual("B3", p.GetAssetData("content/2.js"));
         }
 
         [TestMethod]
@@ -54,9 +54,9 @@ namespace Ignite.Test.Assets
             var p = this.CreatePackage(false, "abc123", "def456", "ghi789");
 
             // Act / Assert
-            Assert.AreEqual("abc123", p.GetData());
-            Assert.AreEqual("abc123", p.GetData());
-            Assert.AreEqual("abc123", p.GetData());
+            Assert.AreEqual("abc123", p.GetAllData());
+            Assert.AreEqual("abc123", p.GetAllData());
+            Assert.AreEqual("abc123", p.GetAllData());
         }
 
         [TestMethod]
@@ -74,19 +74,19 @@ namespace Ignite.Test.Assets
             });
 
             // Act / Assert
-            Assert.AreEqual("A1", p.GetData("content/1.js"));
-            Assert.AreEqual("A1", p.GetData("content/1.js"));
-            Assert.AreEqual("A1", p.GetData("content/1.js"));
+            Assert.AreEqual("A1", p.GetAssetData("content/1.js"));
+            Assert.AreEqual("A1", p.GetAssetData("content/1.js"));
+            Assert.AreEqual("A1", p.GetAssetData("content/1.js"));
 
-            Assert.AreEqual("B1", p.GetData("content/2.js"));
-            Assert.AreEqual("B1", p.GetData("content/2.js"));
-            Assert.AreEqual("B1", p.GetData("content/2.js"));
+            Assert.AreEqual("B1", p.GetAssetData("content/2.js"));
+            Assert.AreEqual("B1", p.GetAssetData("content/2.js"));
+            Assert.AreEqual("B1", p.GetAssetData("content/2.js"));
         }
 
         private CachedPackage CreatePackage(bool isDebugging, params string[] data)
         {
             var package = new Mock<IPackage>();
-            package.Setup(p => p.GetData()).ReturnsInOrder(data);
+            package.Setup(p => p.GetAllData()).ReturnsInOrder(data);
             
             var debugState = new Mock<IDebugState>();
             debugState.Setup(d => d.IsDebugging()).Returns(isDebugging);
@@ -100,7 +100,7 @@ namespace Ignite.Test.Assets
 
             for (int i = 0; i < paths.Length; i++)
             {
-                package.Setup(p => p.GetData(paths[i])).ReturnsInOrder(data[i]);
+                package.Setup(p => p.GetAssetData(paths[i])).ReturnsInOrder(data[i]);
             }
 
             var debugState = new Mock<IDebugState>();

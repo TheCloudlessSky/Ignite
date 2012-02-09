@@ -8,7 +8,7 @@ namespace Ignite.Assets
     public interface IPackage
     {
         IEnumerable<IAsset> Assets { get; }
-        string GetData();
-        string GetData(string assetPath);
+        string GetAllData();
+        string GetAssetData(string assetPath);
     }
 }

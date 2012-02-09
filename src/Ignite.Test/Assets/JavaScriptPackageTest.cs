@@ -55,29 +55,13 @@ namespace Ignite.Test.Assets
             Assert.IsInstanceOfType(tmplAsset, typeof(TemplateAsset));
         }
 
-        [TestMethod]
-        public void Should_use_javascript_processor_to_get_data()
-        {
-            // Arrange
-            var builder = new AssetBuilder();
-            var a1 = builder.Path("scripts/1.js").Data("abc123").Build();
-            var a2 = builder.Path("scripts/2.js").Data("def456").Build();
-            var processor = new Mock<IJavaScriptProcessor>();
-            processor.Setup(p => p.Execute("abc123\r\ndef456\r\n")).Returns("A");
-            processor.Setup(p => p.Execute("abc123")).Returns("B");
-            var package = this.CreatePackage(new[] { a1, a2 }, "jst", processor.Object);
-
-            // Act / Assert
-            Assert.AreEqual("A", package.GetData());
-            Assert.AreEqual("B", package.GetData("scripts/1.js"));
-        }
-
         private JavaScriptPackage CreatePackage(IList<IAsset> assets, string templateExtension, IJavaScriptProcessor processor = null)
         {
             return new JavaScriptPackage(
                 Guid.NewGuid().ToString(), 
                 assets, 
-                processor ?? new Mock<IJavaScriptProcessor>().Object, 
+                new Mock<IJavaScriptProcessor>().Object, 
+                new Mock<IDebugState>().Object,
                 new TemplateConfiguration() { Extension = templateExtension }
             );
         }

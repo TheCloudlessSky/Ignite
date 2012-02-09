@@ -43,38 +43,61 @@ namespace Ignite
         /// Disables HTTP caching.
         /// </summary>
         /// <returns></returns>
-        IPackageContainer DisableCaching();
+        IPackageContainer DisableHttpCaching();
 
         /// <summary>
         /// Enables HTTP caching for one year.
         /// </summary>
         /// <returns></returns>
-        IPackageContainer EnableCaching();
+        IPackageContainer EnableHttpCaching();
 
         /// <summary>
         /// Enables HTTP caching for the specified duration.
         /// </summary>
         /// <param name="cacheDuration"></param>
         /// <returns></returns>
-        IPackageContainer EnableCaching(int cacheDuration);
+        IPackageContainer EnableHttpCaching(int cacheDuration);
 
         /// <summary>
         /// Enables HTTP caching using the specified cache handler.
         /// </summary>
         /// <param name="cacheHandler"></param>
         /// <returns></returns>
-        IPackageContainer EnableCaching(IHttpCacheHandler cacheHandler);
+        IPackageContainer EnableHttpCaching(IHttpCacheHandler cacheHandler);
 
         /// <summary>
-        /// Disabling debugging combines assets into a single HTML tag and enables internal file caching.
-        /// JavaScript and StyleSheet files are fully processed.
+        /// Forcefully disabling debugging does the following:
+        /// <list type="number">
+        ///     <item><description>
+        ///     Combines all package assets into a single tag with a version query parameter. For example:
+        ///     <c><![CDATA[<script type="text/javascript" src="/assets/packageName.js?v=5ur4f87b8lkh"></script>]]></c>
+        ///     </description></item>
+        ///     <item><description>
+        ///     Both preprocessing and processing occurs on individual files before being combined.
+        ///     </description></item>
+        ///     <item><description>
+        ///     Internal caching is enabled to ensure files are read into memory once.
+        ///     </description></item>
+        /// </list>
         /// </summary>
         /// <returns></returns>
         IPackageContainer DisableDebugging();
 
         /// <summary>
-        /// Enabling debugging writes each asset as an individual HTML tag as well as disables
-        /// internal file caching. JavaScript and StyleSheet files should not be processed.
+        /// Forcefully enabling debugging does the following:
+        /// <list type="number">
+        ///     <item><description>
+        ///     Serves package assets individually using tags. For example:
+        ///     <c><![CDATA[<script type="text/javascript" src="/assets/packageName.js?debug=/path/to/script1.js"></script>]]></c>
+        ///     </description></item>
+        ///     <item><description</item>
+        ///     <item><description>
+        ///     Only preprocessing occurs on individual files.
+        ///     </description></item>
+        ///     <item><description>
+        ///     Internal caching is disabled and files are read from disk for each request.
+        ///     </description></item>
+        /// </list>
         /// </summary>
         /// <returns></returns>
         IPackageContainer EnableDebugging();

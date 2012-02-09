@@ -24,26 +24,26 @@ namespace Ignite.Assets
             this.debugState = debugState;
         }
 
-        public string GetData()
+        public string GetAllData()
         {
             lock (this.syncRoot)
             {
                 if (this.debugState.IsDebugging() || this.cachedData == null)
                 {
-                    this.cachedData = this.package.GetData();
+                    this.cachedData = this.package.GetAllData();
                 }
             }
 
             return this.cachedData;
         }
 
-        public string GetData(string assetPath)
+        public string GetAssetData(string assetPath)
         {
             lock (this.syncRoot)
             {
                 if (this.debugState.IsDebugging() || !this.cachedByPath.ContainsKey(assetPath))
                 {
-                    this.cachedByPath[assetPath] = this.package.GetData(assetPath);
+                    this.cachedByPath[assetPath] = this.package.GetAssetData(assetPath);
                 }
             }
             return this.cachedByPath[assetPath];

@@ -49,8 +49,8 @@ namespace Ignite
 
             this.debugState = new DebugState();
             this.versionGenerator = new HashedVersionGenerator();
-            this.javascriptProcessor = new YuiJavaScriptProcessor(this.debugState);
-            this.stylesheetProcessor = new DotLessStyleSheetProcessor(this.debugState);
+            this.javascriptProcessor = new YuiJavaScriptProcessor();
+            this.stylesheetProcessor = new DotLessStyleSheetProcessor(this.appPath);
 
             this.resolver = new AssetResolver(new FileSystemWrapper());
         }
@@ -58,7 +58,7 @@ namespace Ignite
         public IPackageContainer JavaScript(string name, string[] include, string[] exclude = null)
         {
             var assets = this.resolver.GetAssets(this.appPath, include, exclude ?? Enumerable.Empty<string>());
-            var js = new JavaScriptPackage(name, assets, this.javascriptProcessor, this.templateConfig);
+            var js = new JavaScriptPackage(name, assets, this.javascriptProcessor, this.debugState, this.templateConfig);
             this.javascripts.Add(name, new CachedPackage(js, this.debugState));
             return this;
         }
@@ -66,7 +66,7 @@ namespace Ignite
         public IPackageContainer StyleSheet(string name, string[] include, string[] exclude = null)
         {
             var assets = this.resolver.GetAssets(this.appPath, include, exclude ?? Enumerable.Empty<string>());
-            var style = new StyleSheetPackage(name, assets, this.stylesheetProcessor);
+            var style = new StyleSheetPackage(name, assets, this.stylesheetProcessor, this.debugState);
             this.stylesheets.Add(name, new CachedPackage(style, this.debugState));
             return this;
         }
@@ -115,17 +115,17 @@ namespace Ignite
 
             if (this.debugState.IsDebugging() && !String.IsNullOrEmpty(debugQueryParam))
             {
-                result.Data = package.GetData(debugQueryParam);
+                result.Data = package.GetAssetData(debugQueryParam);
             }
             else
             {
-                result.Data = package.GetData();
+                result.Data = package.GetAllData();
             }
 
             return result;
         }
 
-        public IPackageContainer DisableCaching()
+        public IPackageContainer DisableHttpCaching()
         {
             this.CacheHandler = null;
             return this;
@@ -137,22 +137,22 @@ namespace Ignite
             return this;
         }
 
-        public IPackageContainer EnableCaching()
+        public IPackageContainer EnableHttpCaching()
         {
-            return this.EnableCaching((int)TimeSpan.FromDays(365).TotalSeconds);
+            return this.EnableHttpCaching((int)TimeSpan.FromDays(365).TotalSeconds);
         }
 
-        public IPackageContainer EnableCaching(int cacheDuration)
+        public IPackageContainer EnableHttpCaching(int cacheDuration)
         {
             var cacheParams = new OutputCacheParameters()
             {
                 Duration = cacheDuration,
                 VaryByParam = Ignite.VersionQueryParam
             };
-            return this.EnableCaching(new PageBasedHttpCacheHandler(this.debugState, cacheParams));
+            return this.EnableHttpCaching(new PageBasedHttpCacheHandler(this.debugState, cacheParams));
         }
 
-        public IPackageContainer EnableCaching(IHttpCacheHandler cacheHandler)
+        public IPackageContainer EnableHttpCaching(IHttpCacheHandler cacheHandler)
         {
             Contract.Requires(cacheHandler != null);
             this.CacheHandler = cacheHandler;

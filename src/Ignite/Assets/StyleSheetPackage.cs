@@ -8,17 +8,10 @@ namespace Ignite.Assets
 {
     public class StyleSheetPackage : PackageBase
     {
-        private readonly IStyleSheetProcessor processor;
-
-        public StyleSheetPackage(string name, IList<IAsset> assets, IStyleSheetProcessor processor)
-            : base(name, assets)
+        public StyleSheetPackage(string name, IList<IAsset> assets, IStyleSheetProcessor processor, IDebugState debugState)
+            : base(name, assets, processor, debugState)
         {
-            this.processor = processor;
-        }
 
-        protected override string Process(string data)
-        {
-            return this.processor.Execute(data);
         }
     }
 }

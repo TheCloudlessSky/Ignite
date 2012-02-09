@@ -8,12 +8,9 @@ namespace Ignite.Assets
 {
     public class JavaScriptPackage : PackageBase
     {
-        private readonly IJavaScriptProcessor processor;
-
-        public JavaScriptPackage(string name, IList<IAsset> assets, IJavaScriptProcessor processor, TemplateConfiguration configuration)
-            : base(name, assets)
+        public JavaScriptPackage(string name, IList<IAsset> assets, IJavaScriptProcessor processor, IDebugState debugState, TemplateConfiguration configuration)
+            : base(name, assets, processor, debugState)
         {
-            this.processor = processor;
             this.InitializeTemplateAssets(configuration);
         }
 
@@ -32,11 +29,6 @@ namespace Ignite.Assets
             {
                 this.assets.Add(new TemplateAsset("templates/" + Guid.NewGuid().ToString().ToLower() + ".js", tmplAssets, configuration));
             }
-        }
-
-        protected override string Process(string data)
-        {
-            return this.processor.Execute(data);
         }
     }
 }

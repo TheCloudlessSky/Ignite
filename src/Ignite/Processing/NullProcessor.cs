@@ -7,7 +7,12 @@ namespace Ignite.Processing
 {
     public class NullProcessor : IJavaScriptProcessor, IStyleSheetProcessor
     {
-        public string Execute(string data)
+        public string Preprocess(string data, string fileName)
+        {
+            return data;
+        }
+
+        public string Process(string data)
         {
             return data;
         }
