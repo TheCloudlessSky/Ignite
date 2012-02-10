@@ -21,16 +21,16 @@ namespace Ignite.Assets
 
         public string GetData()
         {
-            var prefix = @"(function(root) {
-  var ns = root.#Namespace# || (root.#Namespace# = {});
+            var prefix = @"(function(root) { 
+  var ns = root.#Namespace# || (root.#Namespace# = {}); 
 
-  var lazyTemplate = function(tmpl) {
-    var compiled = null;
+  var lazyTemplate = function(tmpl) { 
+    var compiled = null; 
 
-    return function() {
-      compiled || (compiled = #Function#(tmpl));
-      return compiled.apply(this, arguments);
-    };
+    return function() { 
+      compiled || (compiled = #Function#(tmpl)); 
+      return compiled.apply(this, arguments); 
+    }; 
   };";
             prefix = prefix.Replace("#Namespace#", this.configuration.Namespace)
                            .Replace("#Function#", this.configuration.Function);
