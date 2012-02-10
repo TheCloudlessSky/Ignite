@@ -48,7 +48,7 @@ namespace Ignite
         internal PackageContainer()
         {
             this.routePrefix = "assets";
-            this.appPath = HttpContext.Current.Request.PhysicalApplicationPath;
+            this.appPath = HttpRuntime.AppDomainAppPath;
 
             this.templateConfig = new TemplateConfiguration()
             {
