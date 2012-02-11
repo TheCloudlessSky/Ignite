@@ -47,6 +47,11 @@ namespace Ignite.Assets
                 var path = tmpl.Path.Replace("." + this.configuration.Extension, "");
                 path = path.Substring(commonPrefix);
 
+                if (this.configuration.UseLowerCaseNames)
+                {
+                    path = path.ToLower();
+                }
+
                 var data = tmpl.GetData().Replace(Environment.NewLine, "\\n").Replace("'", "\\'");
                 sb.AppendLine(String.Format(item, path, data));
             }

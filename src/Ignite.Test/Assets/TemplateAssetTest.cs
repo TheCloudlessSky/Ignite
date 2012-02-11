@@ -15,8 +15,8 @@ namespace Ignite.Test.Assets
         {
             // Arrange
             var builder = new AssetBuilder();
-            var a1 = builder.Path("tmpl/a.jst").Data("<h1 />").Build();
-            var a2 = builder.Path("views/b.jst").Data("<h2 />").Build();
+            var a1 = builder.Path("tmpl/A.jst").Data("<h1 />").Build();
+            var a2 = builder.Path("views/B.jst").Data("<h2 />").Build();
 
             var config = new TemplateConfiguration("JST", "tmpl", "jst");
             var tmpl = this.CreateTemplateAsset(config, a1, a2);
@@ -25,8 +25,8 @@ namespace Ignite.Test.Assets
             var data = tmpl.GetData();
 
             // Assert
-            Assert.IsTrue(data.Contains("ns[\"tmpl/a\"] = lazyTemplate('<h1 />');"));
-            Assert.IsTrue(data.Contains("ns[\"views/b\"] = lazyTemplate('<h2 />');"));
+            Assert.IsTrue(data.Contains("ns[\"tmpl/A\"] = lazyTemplate('<h1 />');"));
+            Assert.IsTrue(data.Contains("ns[\"views/B\"] = lazyTemplate('<h2 />');"));
         }
 
         [TestMethod]
@@ -70,6 +70,26 @@ namespace Ignite.Test.Assets
             Assert.IsTrue(data.Contains("ns[\"a\"] = lazyTemplate('<h1>\\n</h1>');"));
             // Preserve whitespace.
             Assert.IsTrue(data.Contains("ns[\"b\"] = lazyTemplate('<h1>\\n    </h1>');"));
+        }
+
+        [TestMethod]
+        public void Can_use_lower_case_names()
+        {
+            // Arrange
+            var builder = new AssetBuilder();
+            var a1 = builder.Path("tMpL/A.jst").Data("<h1 />").Build();
+            var a2 = builder.Path("VIEWS/b.jst").Data("<h2 />").Build();
+
+            var config = new TemplateConfiguration("JST", "tmpl", "jst");
+            config.UseLowerCaseNames = true;
+            var tmpl = this.CreateTemplateAsset(config, a1, a2);
+
+            // Act
+            var data = tmpl.GetData();
+
+            // Assert
+            Assert.IsTrue(data.Contains("ns[\"tmpl/a\"] = lazyTemplate('<h1 />');"));
+            Assert.IsTrue(data.Contains("ns[\"views/b\"] = lazyTemplate('<h2 />');"));
         }
 
         [TestMethod]

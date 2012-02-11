@@ -54,7 +54,8 @@ namespace Ignite
             {
                 Function = "_.template",
                 Extension = "jst",
-                Namespace = "JST"
+                Namespace = "JST",
+                UseLowerCaseNames = false
             };
 
             this.debugState = new DebugState();
@@ -207,6 +208,12 @@ namespace Ignite
         {
             Contract.Requires(!String.IsNullOrWhiteSpace(templateNamespace));
             this.templateConfig.Namespace = templateNamespace;
+            return this;
+        }
+
+        public IPackageContainer TemplatesUseLowerCaseNames()
+        {
+            this.templateConfig.UseLowerCaseNames = true;
             return this;
         }
 

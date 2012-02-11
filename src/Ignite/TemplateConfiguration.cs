@@ -10,6 +10,7 @@ namespace Ignite
         public string Function { get; set; }
         public string Extension { get; set; }
         public string Namespace { get; set; }
+        public bool UseLowerCaseNames { get; set; }
 
         public TemplateConfiguration()
         {
