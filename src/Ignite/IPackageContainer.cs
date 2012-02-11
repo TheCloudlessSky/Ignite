@@ -90,7 +90,6 @@ namespace Ignite
         ///     Serves package assets individually using tags. For example:
         ///     <c><![CDATA[<script type="text/javascript" src="/assets/packageName.js?debug=/path/to/script1.js"></script>]]></c>
         ///     </description></item>
-        ///     <item><description</item>
         ///     <item><description>
         ///     Only preprocessing occurs on individual files.
         ///     </description></item>

@@ -22,7 +22,7 @@
     <PropertyGroup>
         <MajorVersion>1</MajorVersion>
         <MinorVersion>7</MinorVersion>
-        <PatchVersion>4</PatchVersion>
+        <PatchVersion>5</PatchVersion>
         <Version>$(MajorVersion).$(MinorVersion).$(PatchVersion).0</Version>
     </PropertyGroup>
     
@@ -67,8 +67,8 @@
     <Target Name="Build">
         <CallTarget Targets="UpdateVersion" />
         
-        <!-- Compile -->
-        <MSBuild Projects="$(SourceRoot)\Ignite.sln" Properties="Configuration=$(Configuration)" />
+        <!-- Compile and ignore XML comment warnings -->
+        <MSBuild Projects="$(SourceRoot)\Ignite.sln" Properties="Configuration=$(Configuration);nowarn=1591,1573" />
         
         <CallTarget Targets="UpdateVersionCleanup" />
         <OnError ExecuteTargets="UpdateVersionCleanup" />
