@@ -13,7 +13,7 @@ Quick Start
     ```csharp
     public static void RegisterRoutes(RouteCollection routes)
     {
-        Ignite.Create()                             // Create a new package container.
+        PackageContainer.Create()                   // Create a new package container.
             .JavaScript("core", new[]               
             { 
                 "js/vendor/underscore-1.3.1.js",    // Add individual files
@@ -34,13 +34,13 @@ Quick Start
 3. Tell the view to render these tags:
 
     ```html
-    @using Ignite
+    @using Ignite;
     <!DOCTYPE html>
     <html>
       <head>
         <title>Testing Ignite</title>
-        @Ignite.JavaScriptTag("core")
-        @Ignite.StyleSheetTag("core")
+        @PackageContainer.JavaScriptTag("core")
+        @PackageContainer.StyleSheetTag("core")
     ```
 4. Run the application in **Debug** mode (or call `EnableDebugging()` on the container) and view the source:
 
