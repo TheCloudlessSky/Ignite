@@ -22,7 +22,7 @@
     <PropertyGroup>
         <MajorVersion>1</MajorVersion>
         <MinorVersion>7</MinorVersion>
-        <PatchVersion>3</PatchVersion>
+        <PatchVersion>4</PatchVersion>
         <Version>$(MajorVersion).$(MinorVersion).$(PatchVersion).0</Version>
     </PropertyGroup>
     
@@ -44,7 +44,7 @@
             AssemblyTitle="Ignite"
             AssemblyCompany="http://www.adrianphinney.com"
             AssemblyProduct="Ignite"
-            AssemblyCopyright="Copyright © Adrian Phinney 2011"     
+            AssemblyCopyright="Copyright © Adrian Phinney 2012"     
             ComVisible="false"
             CLSCompliant="true"
             Guid="d703946e-699a-45a6-b219-2ac255559c29"

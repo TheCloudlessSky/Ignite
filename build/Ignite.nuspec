@@ -20,5 +20,6 @@
   <files>
     <file src="..\bin\Release\Ignite*.dll" target="lib\net40" />
     <file src="..\bin\Release\Ignite*.pdb" target="lib\net40" />
+    <file src="..\bin\Release\Ignite*.xml" target="lib\net40" />
   </files>
 </package>
