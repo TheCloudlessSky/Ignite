@@ -27,7 +27,7 @@ namespace Ignite.Test.Assets
             var d = p.GetAllData();
 
             // Assert
-            Assert.AreEqual("_$abc123-f/1.js$\r\n$def456-f/2.js$\r\n$ghi789-f/3.js$\r\n_", d);
+            Assert.AreEqual("_$abc123-f/1.js$_\r\n_$def456-f/2.js$_\r\n_$ghi789-f/3.js$_\r\n", d);
         }
 
         [TestMethod]

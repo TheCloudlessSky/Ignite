@@ -31,11 +31,11 @@ namespace Ignite.Assets
 
             foreach (var a in this.assets)
             {
-                sb.AppendLine(this.processor.Preprocess(a.GetData(), a.Path));
+                var data = this.processor.Preprocess(a.GetData(), a.Path);
+                sb.AppendLine(this.debugState.IsDebugging() ? data : this.processor.Process(data));
             }
 
-            var data = sb.ToString();
-            return this.debugState.IsDebugging() ? data : this.processor.Process(data);
+            return sb.ToString();
         }
 
         public string GetAssetData(string assetPath)
