@@ -28,8 +28,8 @@ namespace Ignite.Test.Html
             var tag2 = renderer.JavaScriptTag("ie", new object());
 
             // Assert
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"/assets/core.js?v=1\"></script>", tag1);
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"/assets/ie.js?v=2\"></script>", tag2);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"/assets/core.js?v=1\"></script>\r\n", tag1);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"/assets/ie.js?v=2\"></script>\r\n", tag2);
         }
 
         [TestMethod]
@@ -48,9 +48,9 @@ namespace Ignite.Test.Html
 
             // Assert
             Assert.AreEqual("<script type=\"text/javascript\" src=\"/assets/core.js?debug=scripts/1.js\"></script>\r\n" +
-                            "<script type=\"text/javascript\" src=\"/assets/core.js?debug=scripts/2.js\"></script>", tag1);
+                            "<script type=\"text/javascript\" src=\"/assets/core.js?debug=scripts/2.js\"></script>\r\n", tag1);
             Assert.AreEqual("<script type=\"text/javascript\" src=\"/assets/ie.js?debug=scripts/3.js\"></script>\r\n" +
-                            "<script type=\"text/javascript\" src=\"/assets/ie.js?debug=scripts/4.js\"></script>", tag2);
+                            "<script type=\"text/javascript\" src=\"/assets/ie.js?debug=scripts/4.js\"></script>\r\n", tag2);
         }
 
         [TestMethod]
@@ -67,8 +67,8 @@ namespace Ignite.Test.Html
             var customAttr = renderer.JavaScriptTag("core", new { async = "true" });
 
             // Assert
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"/assets/core.js?v=1\"></script>", ignoredAttr);
-            Assert.AreEqual("<script type=\"text/javascript\" src=\"/assets/core.js?v=2\" async=\"true\"></script>", customAttr);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"/assets/core.js?v=1\"></script>\r\n", ignoredAttr);
+            Assert.AreEqual("<script type=\"text/javascript\" src=\"/assets/core.js?v=2\" async=\"true\"></script>\r\n", customAttr);
         }
 
         [TestMethod]
@@ -86,8 +86,8 @@ namespace Ignite.Test.Html
             var tag2 = renderer.StyleSheetTag("ie", new object());
 
             // Assert
-            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/assets/core.css?v=1\" />", tag1);
-            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/assets/ie.css?v=2\" />", tag2);
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/assets/core.css?v=1\" />\r\n", tag1);
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/assets/ie.css?v=2\" />\r\n", tag2);
         }
 
         [TestMethod]
@@ -106,9 +106,9 @@ namespace Ignite.Test.Html
 
             // Assert
             Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/assets/core.css?debug=style/1.css\" />\r\n" +
-                            "<link rel=\"stylesheet\" type=\"text/css\" href=\"/assets/core.css?debug=style/2.css\" />", tag1);
+                            "<link rel=\"stylesheet\" type=\"text/css\" href=\"/assets/core.css?debug=style/2.css\" />\r\n", tag1);
             Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/assets/ie.css?debug=style/3.css\" />\r\n" +
-                            "<link rel=\"stylesheet\" type=\"text/css\" href=\"/assets/ie.css?debug=style/4.css\" />", tag2);
+                            "<link rel=\"stylesheet\" type=\"text/css\" href=\"/assets/ie.css?debug=style/4.css\" />\r\n", tag2);
         }
 
         [TestMethod]
@@ -125,8 +125,8 @@ namespace Ignite.Test.Html
             var customAttr = renderer.StyleSheetTag("core", new { media = "print" });
 
             // Assert
-            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/assets/core.css?v=1\" />", ignoredAttr);
-            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/assets/core.css?v=2\" media=\"print\" />", customAttr);
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/assets/core.css?v=1\" />\r\n", ignoredAttr);
+            Assert.AreEqual("<link rel=\"stylesheet\" type=\"text/css\" href=\"/assets/core.css?v=2\" media=\"print\" />\r\n", customAttr);
         }
 
         private TagRenderer CreateTagRenderer(string routeRootPath, string[] versions, bool isDebugging, Dictionary<string, IPackage> packages)

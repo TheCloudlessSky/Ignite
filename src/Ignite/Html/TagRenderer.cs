@@ -52,7 +52,7 @@ namespace Ignite.Html
                 tag = renderer(path, attributes);
             }
 
-            return tag;
+            return tag + Environment.NewLine;
         }
 
         private string GetPath(string name, string extension, string debugPath)

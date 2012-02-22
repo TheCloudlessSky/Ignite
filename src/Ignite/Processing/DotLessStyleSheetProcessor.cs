@@ -13,10 +13,12 @@ namespace Ignite.Processing
     public class DotLessStyleSheetProcessor : IStyleSheetProcessor
     {
         private readonly string appPath;
+        private readonly IDebugState debugState;
 
-        public DotLessStyleSheetProcessor(string appPath)
+        public DotLessStyleSheetProcessor(string appPath, IDebugState debugState)
         {
             this.appPath = appPath;
+            this.debugState = debugState;
         }
 
         private class IgniteDotLessLogger : dotless.Core.Loggers.ILogger
@@ -59,14 +61,25 @@ namespace Ignite.Processing
 
             // Execute LESS engine but do not compress or optimize. This allows resolving 
             // @import statements during debugging as well as a pretty-print version of the CSS.
-            var e = new LessEngine(new dotless.Core.Parser.Parser(optimization: 0), new IgniteDotLessLogger(), compress: false);
-            return e.TransformToCss(data, fileName);
+            // However, when not debugging, all of the statements should be resolved in the Process() 
+            // method. This is because statements like `filter: progid:DXImageTransform...` can't be parsed
+            // if they've been preprocessed to regular CSS.
+            if (this.debugState.IsDebugging())
+            {
+                var e = new LessEngine(new dotless.Core.Parser.Parser(optimization: 0), new IgniteDotLessLogger(), compress: false);
+                return e.TransformToCss(data, fileName);
+            }
+            else
+            {
+                return data;
+            }
         }
 
         public string Process(string data)
         {
             return Less.Parse(data, new dotless.Core.configuration.DotlessConfiguration()
             {
+                Optimization = 1,
                 MinifyOutput = true,
                 Logger = typeof(IgniteDotLessLogger)
             });

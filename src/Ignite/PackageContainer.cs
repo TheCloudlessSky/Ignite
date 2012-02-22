@@ -61,7 +61,7 @@ namespace Ignite
             this.debugState = new DebugState();
             this.versionGenerator = new HashedVersionGenerator();
             this.javascriptProcessor = new YuiJavaScriptProcessor();
-            this.stylesheetProcessor = new DotLessStyleSheetProcessor(this.appPath);
+            this.stylesheetProcessor = new DotLessStyleSheetProcessor(this.appPath, this.debugState);
 
             this.resolver = new AssetResolver(new FileSystemWrapper());
         }
