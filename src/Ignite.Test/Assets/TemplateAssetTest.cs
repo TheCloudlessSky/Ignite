@@ -73,7 +73,7 @@ namespace Ignite.Test.Assets
         }
 
         [TestMethod]
-        public void Can_use_lower_case_names()
+        public void Can_use_custom_name_casing()
         {
             // Arrange
             var builder = new AssetBuilder();
@@ -81,7 +81,7 @@ namespace Ignite.Test.Assets
             var a2 = builder.Path("VIEWS/b.jst").Data("<h2 />").Build();
 
             var config = new TemplateConfiguration("JST", "tmpl", "jst");
-            config.UseLowerCaseNames = true;
+            config.NameCasing = p => p.ToLower();
             var tmpl = this.CreateTemplateAsset(config, a1, a2);
 
             // Act

@@ -137,10 +137,11 @@ namespace Ignite
         IPackageContainer TemplateNamespace(string templateNamespace);
 
         /// <summary>
-        /// When called, all template names will be converted to lowercase.
+        /// Control the casing of the template names as they are specified in JavaScript.
         /// </summary>
+        /// <param name="casing"></param>
         /// <returns></returns>
-        IPackageContainer TemplatesUseLowerCaseNames();
+        IPackageContainer TemplateNameCasing(Func<string, string> casing);
 
         /// <summary>
         /// Sets the route prefix used for the packaged assets. The default value is "assets". 

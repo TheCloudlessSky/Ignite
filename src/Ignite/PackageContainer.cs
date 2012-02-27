@@ -50,13 +50,10 @@ namespace Ignite
             this.routePrefix = "assets";
             this.appPath = HttpRuntime.AppDomainAppPath;
 
-            this.templateConfig = new TemplateConfiguration()
-            {
-                Function = "_.template",
-                Extension = "jst",
-                Namespace = "JST",
-                UseLowerCaseNames = false
-            };
+            this.templateConfig = new TemplateConfiguration(
+                tmplNamespace: "JST",
+                tmplFunction: "_.template",
+                tmplExtension: "jst");
 
             this.debugState = new DebugState();
             this.versionGenerator = new HashedVersionGenerator();
@@ -211,9 +208,10 @@ namespace Ignite
             return this;
         }
 
-        public IPackageContainer TemplatesUseLowerCaseNames()
+        public IPackageContainer TemplateNameCasing(Func<string, string> nameCasing)
         {
-            this.templateConfig.UseLowerCaseNames = true;
+            Contract.Requires(nameCasing != null);
+            this.templateConfig.NameCasing = nameCasing;
             return this;
         }
 

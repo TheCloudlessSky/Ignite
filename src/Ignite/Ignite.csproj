@@ -61,6 +61,7 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Assets\Casing.cs" />
     <Compile Include="Processing\IProcessor.cs" />
     <Compile Include="Processing\ProcessingException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

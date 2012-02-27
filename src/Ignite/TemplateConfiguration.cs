@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Ignite.Assets;
 
 namespace Ignite
 {
@@ -10,7 +11,7 @@ namespace Ignite
         public string Function { get; set; }
         public string Extension { get; set; }
         public string Namespace { get; set; }
-        public bool UseLowerCaseNames { get; set; }
+        public Func<string, string> NameCasing { get; set; }
 
         public TemplateConfiguration()
         {
@@ -22,6 +23,7 @@ namespace Ignite
             this.Namespace = tmplNamespace;
             this.Function = tmplFunction;
             this.Extension = tmplExtension;
+            this.NameCasing = Casing.Default;
         }
     }
 }

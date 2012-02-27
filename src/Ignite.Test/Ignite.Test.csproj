@@ -55,6 +55,7 @@
     <Compile Include="AssetBuilder.cs" />
     <Compile Include="Assets\AssetTest.cs" />
     <Compile Include="Assets\CachedPackageTest.cs" />
+    <Compile Include="Assets\CasingTest.cs" />
     <Compile Include="Assets\JavaScriptPackageTest.cs" />
     <Compile Include="Assets\PackageBaseTest.cs" />
     <Compile Include="Assets\TemplateAssetTest.cs" />
