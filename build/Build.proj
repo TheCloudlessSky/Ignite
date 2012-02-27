@@ -21,8 +21,8 @@
     
     <PropertyGroup>
         <MajorVersion>1</MajorVersion>
-        <MinorVersion>7</MinorVersion>
-        <PatchVersion>7</PatchVersion>
+        <MinorVersion>8</MinorVersion>
+        <PatchVersion>0</PatchVersion>
         <Version>$(MajorVersion).$(MinorVersion).$(PatchVersion).0</Version>
     </PropertyGroup>
     
