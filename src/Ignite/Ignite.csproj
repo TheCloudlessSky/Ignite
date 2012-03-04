@@ -34,8 +34,9 @@
     <DocumentationFile>bin\Release\Ignite.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="dotless.Core">
-      <HintPath>..\..\lib\dotless.1.2.2.0\lib\dotless.Core.dll</HintPath>
+    <Reference Include="dotless.Core, Version=1.2.3.0, Culture=neutral, PublicKeyToken=96b446c9e63eae34, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\dotless.1.2.3.0\lib\dotless.Core.dll</HintPath>
     </Reference>
     <Reference Include="EcmaScript.NET.modified">
       <HintPath>..\..\lib\YUICompressor.NET.1.7.0.0\lib\net35\EcmaScript.NET.modified.dll</HintPath>
